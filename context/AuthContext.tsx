@@ -5,16 +5,24 @@ import type { Attendee } from '../lib/supabase';
 export interface User {
   id: string;
   name: string;
-  age: string;
+  age: string; // This now stores age_group (Youth, Young Adults, Adults, Seniors)
 }
 
 interface AuthContextType {
   user: User | null;
-  login: (name: string, age: string) => Promise<void>;
+  login: (name: string, ageGroup: string) => Promise<void>;
   logout: () => void;
   isAuthenticated: boolean;
   isLoading: boolean;
 }
+
+// Map age groups to representative ages for database storage
+const AGE_GROUP_TO_AGE: Record<string, number> = {
+  'Youth': 15,
+  'Young Adults': 22,
+  'Adults': 33,
+  'Seniors': 75,
+};
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -43,10 +51,18 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             localStorage.removeItem(AUTH_STORAGE_KEY);
             setUser(null);
           } else {
+            // Map age back to age group (approximate)
+            const age = data.age;
+            let ageGroup = 'Adults';
+            if (age < 18) ageGroup = 'Youth';
+            else if (age >= 18 && age <= 25) ageGroup = 'Young Adults';
+            else if (age >= 26 && age < 70) ageGroup = 'Adults';
+            else ageGroup = 'Seniors';
+            
             setUser({
               id: data.id,
               name: data.name,
-              age: data.age.toString(),
+              age: ageGroup,
             });
           }
         } catch (e) {
@@ -60,12 +76,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     loadUser();
   }, []);
 
-  const login = async (name: string, age: string) => {
+  const login = async (name: string, ageGroup: string) => {
     setIsLoading(true);
     try {
-      const ageNum = parseInt(age.trim(), 10);
+      // Map age group to representative age for database
+      const ageNum = AGE_GROUP_TO_AGE[ageGroup] || 25;
       
-      // Check if attendee already exists (same name and age)
+      // Check if attendee already exists (same name and age group)
+      // We check by name and the mapped age number
       const { data: existingAttendees, error: searchError } = await supabase
         .from('attendees')
         .select('id, name, age')
@@ -132,7 +150,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const userData: User = {
         id: attendeeId,
         name: name.trim(),
-        age: age.trim(),
+        age: ageGroup, // Store age group string
       };
 
       setUser(userData);

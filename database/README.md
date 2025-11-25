@@ -70,8 +70,8 @@ SELECT
   CASE 
     WHEN age < 18 THEN 'Youth (<18)'
     WHEN age BETWEEN 18 AND 25 THEN 'Young Adults (18-25)'
-    WHEN age BETWEEN 26 AND 40 THEN 'Adults (26-40)'
-    WHEN age > 40 THEN 'Seniors (40+)'
+    WHEN age BETWEEN 26 AND 69 THEN 'Adults (26-69)'
+    WHEN age >= 70 THEN 'Seniors (70+)'
   END as age_group,
   COUNT(*) as count
 FROM attendees
@@ -86,8 +86,8 @@ SELECT
   CASE 
     WHEN a.age < 18 THEN 'Youth (<18)'
     WHEN a.age BETWEEN 18 AND 25 THEN 'Young Adults (18-25)'
-    WHEN a.age BETWEEN 26 AND 40 THEN 'Adults (26-40)'
-    WHEN a.age > 40 THEN 'Seniors (40+)'
+    WHEN a.age BETWEEN 26 AND 69 THEN 'Adults (26-69)'
+    WHEN a.age >= 70 THEN 'Seniors (70+)'
   END as age_group,
   COUNT(*) as selection_count
 FROM schedule_selections ss

@@ -2,6 +2,11 @@
 -- Run this in your Supabase SQL Editor
 
 -- Create attendees table
+-- Note: 'age' stores representative ages mapped from age groups:
+--   Youth (<18) -> 15
+--   Young Adults (18-25) -> 22
+--   Adults (26-69) -> 33
+--   Seniors (70+) -> 75
 CREATE TABLE IF NOT EXISTS attendees (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   name TEXT NOT NULL,
@@ -107,8 +112,8 @@ GRANT SELECT ON popular_events TO anon, authenticated;
 --   CASE 
 --     WHEN age < 18 THEN 'Youth'
 --     WHEN age BETWEEN 18 AND 25 THEN 'Young Adults'
---     WHEN age BETWEEN 26 AND 40 THEN 'Adults'
---     WHEN age > 40 THEN 'Seniors'
+--     WHEN age BETWEEN 26 AND 69 THEN 'Adults'
+--     WHEN age >= 70 THEN 'Seniors'
 --   END as age_group,
 --   COUNT(*) as count
 -- FROM attendees
@@ -121,8 +126,8 @@ GRANT SELECT ON popular_events TO anon, authenticated;
 --   CASE 
 --     WHEN a.age < 18 THEN 'Youth'
 --     WHEN a.age BETWEEN 18 AND 25 THEN 'Young Adults'
---     WHEN a.age BETWEEN 26 AND 40 THEN 'Adults'
---     WHEN a.age > 40 THEN 'Seniors'
+--     WHEN a.age BETWEEN 26 AND 69 THEN 'Adults'
+--     WHEN a.age >= 70 THEN 'Seniors'
 --   END as age_group,
 --   COUNT(*) as selection_count
 -- FROM schedule_selections ss

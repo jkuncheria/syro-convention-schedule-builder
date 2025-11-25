@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Header from './components/Header';
 import LandingPage from './pages/LandingPage';
 import ScheduleBuilderPage from './pages/ScheduleBuilderPage';
@@ -9,8 +9,10 @@ import AnalyticsPage from './pages/AnalyticsPage';
 import { ScheduleProvider } from './context/ScheduleContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
 
-const ProtectedRoutes: React.FC = () => {
+// Component to protect routes that require authentication
+const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isAuthenticated, isLoading } = useAuth();
+  const location = useLocation();
 
   if (isLoading) {
     return (
@@ -24,18 +26,47 @@ const ProtectedRoutes: React.FC = () => {
   }
 
   if (!isAuthenticated) {
-    return <LoginPage />;
+    // Redirect to login with the intended destination
+    return <Navigate to={`/login?redirect=${encodeURIComponent(location.pathname)}`} replace />;
   }
+
+  return <>{children}</>;
+};
+
+const AppRoutes: React.FC = () => {
+  const { isAuthenticated } = useAuth();
 
   return (
     <>
-      <Header />
+      {isAuthenticated && <Header />}
       <main>
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/builder" element={<ScheduleBuilderPage />} />
-          <Route path="/my-schedule" element={<MySchedulePage />} />
-          <Route path="/analytics" element={<AnalyticsPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route
+            path="/builder"
+            element={
+              <ProtectedRoute>
+                <ScheduleBuilderPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/my-schedule"
+            element={
+              <ProtectedRoute>
+                <MySchedulePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/analytics"
+            element={
+              <ProtectedRoute>
+                <AnalyticsPage />
+              </ProtectedRoute>
+            }
+          />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
@@ -49,7 +80,7 @@ const App: React.FC = () => {
       <ScheduleProvider>
         <Router>
           <div className="min-h-screen bg-gray-50 font-sans text-gray-900">
-            <ProtectedRoutes />
+            <AppRoutes />
           </div>
         </Router>
       </ScheduleProvider>
