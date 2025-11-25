@@ -1,14 +1,16 @@
 import React, { useState, FormEvent } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Calendar } from 'lucide-react';
+import { ADMIN_NAME, ADMIN_AGE } from '../utils/admin';
 
 const LoginPage: React.FC = () => {
-  const { login } = useAuth();
+  const { login, isLoading } = useAuth();
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
   const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError('');
 
@@ -23,12 +25,40 @@ const LoginPage: React.FC = () => {
     }
 
     const ageNum = parseInt(age.trim(), 10);
-    if (isNaN(ageNum) || ageNum < 1 || ageNum > 120) {
+    const isAdminLogin = name.trim() === ADMIN_NAME && age.trim() === ADMIN_AGE;
+    
+    if (isNaN(ageNum) || ageNum < 1) {
       setError('Please enter a valid age');
       return;
     }
+    
+    // Allow admin age (2001), otherwise validate normal age range
+    if (!isAdminLogin && ageNum > 120) {
+      setError('Please enter a valid age (1-120)');
+      return;
+    }
 
-    login(name.trim(), age.trim());
+    setIsSubmitting(true);
+    try {
+      await login(name.trim(), age.trim());
+    } catch (err: any) {
+      console.error('Login error:', err);
+      
+      // Provide more helpful error messages
+      if (err?.code === 'PGRST116' || err?.message?.includes('relation') || err?.message?.includes('does not exist')) {
+        setError('Database tables not found. Please run the schema.sql file in your Supabase SQL Editor.');
+      } else if (err?.code === '42501' || err?.message?.includes('permission') || err?.message?.includes('policy')) {
+        setError('Permission denied. Please check your Supabase RLS policies.');
+      } else if (err?.code === '23514' || err?.message?.includes('check constraint')) {
+        setError('Invalid age value. Please check the age constraint.');
+      } else if (err?.status === 400 || err?.status === 406) {
+        setError('Database connection error. Please verify your Supabase credentials and that tables exist.');
+      } else {
+        setError(err?.message || 'Failed to log in. Please check your Supabase setup and try again.');
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -85,7 +115,7 @@ const LoginPage: React.FC = () => {
                   type="number"
                   required
                   min="1"
-                  max="120"
+                  max={name.trim() === ADMIN_NAME ? "2001" : "120"}
                   value={age}
                   onChange={(e) => setAge(e.target.value)}
                   className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
@@ -97,9 +127,10 @@ const LoginPage: React.FC = () => {
             <div>
               <button
                 type="submit"
-                className="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                disabled={isSubmitting || isLoading}
+                className="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Continue
+                {isSubmitting || isLoading ? 'Loading...' : 'Continue'}
               </button>
             </div>
 
