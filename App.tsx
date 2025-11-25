@@ -6,6 +6,7 @@ import ScheduleBuilderPage from './pages/ScheduleBuilderPage';
 import MySchedulePage from './pages/MySchedulePage';
 import LoginPage from './pages/LoginPage';
 import AnalyticsPage from './pages/AnalyticsPage';
+import SpeakersPage from './pages/SpeakersPage';
 import { ScheduleProvider } from './context/ScheduleContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
 
@@ -67,6 +68,7 @@ const AppRoutes: React.FC = () => {
               </ProtectedRoute>
             }
           />
+          <Route path="/speakers" element={<SpeakersPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>

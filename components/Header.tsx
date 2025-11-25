@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Calendar, Menu, X, LayoutGrid, Home, LogOut, User, BarChart3 } from 'lucide-react';
+import { Calendar, Menu, X, LayoutGrid, Home, LogOut, User, BarChart3, Users } from 'lucide-react';
 import { useSchedule } from '../context/ScheduleContext';
 import { useAuth } from '../context/AuthContext';
 import { isAdmin } from '../utils/admin';
@@ -17,6 +17,7 @@ const Header: React.FC = () => {
     { name: 'Home', path: '/', icon: Home },
     { name: 'All Events', path: '/builder', icon: LayoutGrid },
     { name: 'My Schedule', path: '/my-schedule', icon: Calendar, badge: selectedCount > 0 ? selectedCount : null },
+    { name: 'Speakers', path: '/speakers', icon: Users },
     ...(isAdmin(user) ? [{ name: 'Analytics', path: '/analytics', icon: BarChart3 }] : []),
   ];
 
