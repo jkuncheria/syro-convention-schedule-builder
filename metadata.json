@@ -1,0 +1,5 @@
+{
+  "name": "Syro Convention Schedule Builder",
+  "description": "A personalized schedule builder for the Syro Convention. Browse events, filter by category, and manage your own 4-day agenda with automatic conflict detection.",
+  "requestFramePermissions": []
+}
