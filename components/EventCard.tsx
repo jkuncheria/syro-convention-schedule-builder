@@ -1,9 +1,11 @@
-import React from 'react';
-import { Plus, Check, MapPin, Clock, Users, Tag, AlertTriangle } from 'lucide-react';
+import React, { useState } from 'react';
+import { Plus, Check, MapPin, Clock, Users, Tag, AlertTriangle, User, Sparkles } from 'lucide-react';
 import { ConventionEvent, FocusGroup, Category } from '../types';
 import { useSchedule } from '../context/ScheduleContext';
 import { getConflicts } from '../utils/timeUtils';
 import { EVENTS } from '../constants';
+import { getSpeakersForEvent } from '../utils/speakerUtils';
+import SpeakerModal from './SpeakerModal';
 
 interface EventCardProps {
   event: ConventionEvent;
@@ -13,6 +15,11 @@ interface EventCardProps {
 const EventCard: React.FC<EventCardProps> = ({ event, compact = false }) => {
   const { isSelected, toggleEvent, selectedEventIds } = useSchedule();
   const selected = isSelected(event.id);
+  const [selectedSpeakerIndex, setSelectedSpeakerIndex] = useState<number | null>(null);
+
+  // Get speakers for this event
+  const speakers = getSpeakersForEvent(event.id);
+  const hasSpeakers = speakers.length > 0;
 
   // Derive schedule list for conflict checking
   const mySchedule = EVENTS.filter(e => selectedEventIds.includes(e.id));
@@ -22,6 +29,16 @@ const EventCard: React.FC<EventCardProps> = ({ event, compact = false }) => {
   const handleToggle = (e: React.MouseEvent) => {
     e.preventDefault();
     toggleEvent(event.id);
+  };
+
+  const handleViewSpeaker = (e: React.MouseEvent, index: number) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setSelectedSpeakerIndex(index);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedSpeakerIndex(null);
   };
 
   const getCategoryColor = (cat: Category) => {
@@ -36,10 +53,25 @@ const EventCard: React.FC<EventCardProps> = ({ event, compact = false }) => {
   };
 
   return (
-    <div className={`relative bg-white rounded-xl shadow-sm border transition-all duration-200 ${
+    <div className={`relative bg-white rounded-xl shadow-sm border transition-all duration-200 overflow-hidden flex flex-col ${
         selected ? 'border-indigo-200 ring-1 ring-indigo-100 bg-indigo-50/30' : 'border-gray-200 hover:border-indigo-300 hover:shadow-md'
     }`}>
-      <div className="p-5 flex flex-col h-full">
+      {/* Guest Speakers Badge */}
+      {hasSpeakers && (
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            handleViewSpeaker(e, 0);
+          }}
+          className="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white px-4 py-2.5 flex items-center justify-center gap-2 text-sm font-semibold transition-all duration-200 shadow-sm flex-shrink-0"
+        >
+          <Sparkles className="w-4 h-4" />
+          <span>See Guest Speaker{speakers.length > 1 ? 's' : ''}</span>
+        </button>
+      )}
+      
+      <div className="p-5 flex flex-col flex-1 min-h-0">
         {/* Header Row */}
         <div className="flex justify-between items-start mb-2">
             <div className="flex flex-wrap gap-2 mb-2">
@@ -108,9 +140,38 @@ const EventCard: React.FC<EventCardProps> = ({ event, compact = false }) => {
       
       {/* Selected Indicator Checkmark */}
       {selected && (
-          <div className="absolute top-4 right-4 bg-indigo-600 text-white rounded-full p-1 shadow-sm">
+          <div className={`absolute ${hasSpeakers ? 'top-12' : 'top-4'} right-4 bg-indigo-600 text-white rounded-full p-1 shadow-sm z-10`}>
               <Check className="w-3 h-3" />
           </div>
+      )}
+
+      {/* Speaker Modals - Show all speakers if multiple */}
+      {hasSpeakers && selectedSpeakerIndex !== null && speakers[selectedSpeakerIndex] && (
+        <>
+          <SpeakerModal
+            speaker={speakers[selectedSpeakerIndex]}
+            isOpen={selectedSpeakerIndex !== null}
+            onClose={handleCloseModal}
+          />
+          {/* If multiple speakers, add navigation */}
+          {speakers.length > 1 && selectedSpeakerIndex !== null && (
+            <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50 flex gap-2">
+              {speakers.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setSelectedSpeakerIndex(index)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                    selectedSpeakerIndex === index
+                      ? 'bg-white text-amber-600 shadow-lg'
+                      : 'bg-white/80 text-gray-600 hover:bg-white'
+                  }`}
+                >
+                  {speakers[index].name.split(' ')[speakers[index].name.split(' ').length - 1]}
+                </button>
+              ))}
+            </div>
+          )}
+        </>
       )}
     </div>
   );
