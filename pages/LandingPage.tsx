@@ -21,7 +21,7 @@ const LandingPage: React.FC = () => {
             Build Your Perfect Convention Experience
           </h1>
           <p className="text-lg leading-8 text-gray-600 mb-10">
-            Browse dozens of sessions, workshops, and liturgies across 4 days. Create a personalized agenda that fits your interests and save it directly to your device.
+            Browse dozens of sessions, workshops, and liturgies across 4 days. Create a personalized agenda that fits your interests and save it directly to your device
           </p>
           <div className="flex items-center justify-center gap-x-6">
             <Link
