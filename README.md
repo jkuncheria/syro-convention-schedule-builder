@@ -2,7 +2,7 @@
 <img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
 </div>
 
-# SyroCon 2026 Schedule Builder
+# Syro-Convention 2026 Schedule Builder
 
 A schedule builder application for the Syro-Malabar Convention 2026. Attendees can browse events, build their personal schedule, and track their selections.
 

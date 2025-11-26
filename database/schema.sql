@@ -1,4 +1,4 @@
--- SyroCon Schedule Builder Database Schema
+-- Syro-Convention Schedule Builder Database Schema
 -- Run this in your Supabase SQL Editor
 
 -- Create attendees table

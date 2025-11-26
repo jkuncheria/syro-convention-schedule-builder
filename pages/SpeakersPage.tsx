@@ -38,7 +38,7 @@ const SpeakersPage: React.FC = () => {
             </div>
             <h1 className="text-4xl font-bold text-gray-900 mb-4">Our Speakers</h1>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Meet the distinguished speakers joining us for SyroCon 2026. 
+              Meet the distinguished speakers joining us for Syro-Convention 2026. 
               From faith leaders to artists, entrepreneurs to medical professionals, 
               our speakers bring diverse perspectives and inspiring stories.
             </p>

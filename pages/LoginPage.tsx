@@ -82,7 +82,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ redirectTo }) => {
           </div>
         </div>
         <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
-          Welcome to SyroCon 2026
+          Welcome to Syro-Convention 2026
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
           Enter your name and select your age group to get started
