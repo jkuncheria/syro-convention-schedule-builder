@@ -5,7 +5,7 @@ import type { Attendee } from '../lib/supabase';
 export interface User {
   id: string;
   name: string;
-  age: string; // This now stores age_group (Youth, Young Adults, Adults, Seniors)
+  age: string; // This stores age_group (6-12, 13-17, 18-24, 25-45, 46-64, 65+)
 }
 
 interface AuthContextType {
@@ -18,10 +18,12 @@ interface AuthContextType {
 
 // Map age groups to representative ages for database storage
 const AGE_GROUP_TO_AGE: Record<string, number> = {
-  'Youth': 15,
-  'Young Adults': 22,
-  'Adults': 33,
-  'Seniors': 75,
+  '6-12': 9,      // Midpoint of 6-12
+  '13-17': 15,    // Midpoint of 13-17
+  '18-24': 21,    // Midpoint of 18-24
+  '25-45': 35,    // Midpoint of 25-45
+  '46-64': 55,    // Midpoint of 46-64
+  '65+': 70,      // Representative age for 65+
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -53,11 +55,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           } else {
             // Map age back to age group (approximate)
             const age = data.age;
-            let ageGroup = 'Adults';
-            if (age < 18) ageGroup = 'Youth';
-            else if (age >= 18 && age <= 25) ageGroup = 'Young Adults';
-            else if (age >= 26 && age < 70) ageGroup = 'Adults';
-            else ageGroup = 'Seniors';
+            let ageGroup = '25-45';
+            if (age <= 12) ageGroup = '6-12';
+            else if (age <= 17) ageGroup = '13-17';
+            else if (age <= 24) ageGroup = '18-24';
+            else if (age <= 45) ageGroup = '25-45';
+            else if (age <= 64) ageGroup = '46-64';
+            else ageGroup = '65+';
             
             setUser({
               id: data.id,
@@ -80,7 +84,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setIsLoading(true);
     try {
       // Map age group to representative age for database
-      const ageNum = AGE_GROUP_TO_AGE[ageGroup] || 25;
+      const ageNum = AGE_GROUP_TO_AGE[ageGroup] || 35;
       
       // Check if attendee already exists (same name and age group)
       // We check by name and the mapped age number

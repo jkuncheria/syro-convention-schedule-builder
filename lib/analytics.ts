@@ -77,21 +77,28 @@ export async function getAttendeesByAgeGroup(): Promise<AgeGroupStats[]> {
   }
 
   const ageGroups: Record<string, number> = {
-    'Youth (<18)': 0,
-    'Young Adults (18-25)': 0,
-    'Adults (26-69)': 0,
-    'Seniors (70+)': 0,
+    '6-12': 0,
+    '13-17': 0,
+    '18-24': 0,
+    '25-45': 0,
+    '46-64': 0,
+    '65+': 0,
   };
 
   data?.forEach((attendee) => {
-    if (attendee.age < 18) {
-      ageGroups['Youth (<18)']++;
-    } else if (attendee.age >= 18 && attendee.age <= 25) {
-      ageGroups['Young Adults (18-25)']++;
-    } else if (attendee.age >= 26 && attendee.age < 70) {
-      ageGroups['Adults (26-69)']++;
+    const age = attendee.age;
+    if (age <= 12) {
+      ageGroups['6-12']++;
+    } else if (age <= 17) {
+      ageGroups['13-17']++;
+    } else if (age <= 24) {
+      ageGroups['18-24']++;
+    } else if (age <= 45) {
+      ageGroups['25-45']++;
+    } else if (age <= 64) {
+      ageGroups['46-64']++;
     } else {
-      ageGroups['Seniors (70+)']++;
+      ageGroups['65+']++;
     }
   });
 
@@ -128,14 +135,18 @@ export async function getPopularEventsByAgeGroup(limit: number = 5): Promise<Eve
     if (!age) return;
 
     let ageGroup: string;
-    if (age < 18) {
-      ageGroup = 'Youth (<18)';
-    } else if (age >= 18 && age <= 25) {
-      ageGroup = 'Young Adults (18-25)';
-    } else if (age >= 26 && age < 70) {
-      ageGroup = 'Adults (26-69)';
+    if (age <= 12) {
+      ageGroup = '6-12';
+    } else if (age <= 17) {
+      ageGroup = '13-17';
+    } else if (age <= 24) {
+      ageGroup = '18-24';
+    } else if (age <= 45) {
+      ageGroup = '25-45';
+    } else if (age <= 64) {
+      ageGroup = '46-64';
     } else {
-      ageGroup = 'Seniors (70+)';
+      ageGroup = '65+';
     }
 
     if (!eventAgeGroups[eventId]) {

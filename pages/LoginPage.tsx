@@ -9,10 +9,12 @@ interface LoginPageProps {
 }
 
 const AGE_GROUPS = [
-  { value: 'Youth', label: 'Youth (<18)' },
-  { value: 'Young Adults', label: 'Young Adults (18-25)' },
-  { value: 'Adults', label: 'Adults (26-69)' },
-  { value: 'Seniors', label: 'Seniors (70+)' },
+  { value: '6-12', label: '6-12' },
+  { value: '13-17', label: '13-17' },
+  { value: '18-24', label: '18-24' },
+  { value: '25-45', label: '25-45' },
+  { value: '46-64', label: '46-64' },
+  { value: '65+', label: '65+' },
 ] as const;
 
 const LoginPage: React.FC<LoginPageProps> = ({ redirectTo }) => {

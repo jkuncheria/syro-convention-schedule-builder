@@ -3,10 +3,12 @@
 
 -- Create attendees table
 -- Note: 'age' stores representative ages mapped from age groups:
---   Youth (<18) -> 15
---   Young Adults (18-25) -> 22
---   Adults (26-69) -> 33
---   Seniors (70+) -> 75
+--   6-12 -> 9
+--   13-17 -> 15
+--   18-24 -> 21
+--   25-45 -> 35
+--   46-64 -> 55
+--   65+ -> 70
 CREATE TABLE IF NOT EXISTS attendees (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   name TEXT NOT NULL,
@@ -110,10 +112,12 @@ GRANT SELECT ON popular_events TO anon, authenticated;
 -- Attendees by age group:
 -- SELECT 
 --   CASE 
---     WHEN age < 18 THEN 'Youth'
---     WHEN age BETWEEN 18 AND 25 THEN 'Young Adults'
---     WHEN age BETWEEN 26 AND 69 THEN 'Adults'
---     WHEN age >= 70 THEN 'Seniors'
+--     WHEN age <= 12 THEN '6-12'
+--     WHEN age <= 17 THEN '13-17'
+--     WHEN age <= 24 THEN '18-24'
+--     WHEN age <= 45 THEN '25-45'
+--     WHEN age <= 64 THEN '46-64'
+--     WHEN age >= 65 THEN '65+'
 --   END as age_group,
 --   COUNT(*) as count
 -- FROM attendees
@@ -124,10 +128,12 @@ GRANT SELECT ON popular_events TO anon, authenticated;
 -- SELECT 
 --   ss.event_id,
 --   CASE 
---     WHEN a.age < 18 THEN 'Youth'
---     WHEN a.age BETWEEN 18 AND 25 THEN 'Young Adults'
---     WHEN a.age BETWEEN 26 AND 69 THEN 'Adults'
---     WHEN a.age >= 70 THEN 'Seniors'
+--     WHEN a.age <= 12 THEN '6-12'
+--     WHEN a.age <= 17 THEN '13-17'
+--     WHEN a.age <= 24 THEN '18-24'
+--     WHEN a.age <= 45 THEN '25-45'
+--     WHEN a.age <= 64 THEN '46-64'
+--     WHEN a.age >= 65 THEN '65+'
 --   END as age_group,
 --   COUNT(*) as selection_count
 -- FROM schedule_selections ss
