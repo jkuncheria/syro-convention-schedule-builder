@@ -31,6 +31,8 @@ const ParishImagesScrollBanner: React.FC<ParishImagesScrollBannerProps> = ({ ima
                   src={image}
                   alt={`Parish visit ${index + 1}`}
                   className="w-full h-full object-cover"
+                  loading="lazy"
+                  decoding="async"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
                     target.style.display = 'none';

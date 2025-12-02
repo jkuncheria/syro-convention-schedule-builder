@@ -45,6 +45,8 @@ const SpeakersScrollBanner: React.FC<SpeakersScrollBannerProps> = ({ compact = f
                   src={speaker.image}
                   alt={speaker.name}
                   className="w-full h-full object-cover"
+                  loading="lazy"
+                  decoding="async"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
                     target.style.display = 'none';

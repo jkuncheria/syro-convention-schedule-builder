@@ -26,6 +26,55 @@ const LandingPage: React.FC = () => {
   // Parish Visits carousel
   const [carouselIndex, setCarouselIndex] = useState(0);
   
+  // Preload first carousel image for faster initial load
+  useEffect(() => {
+    if (heroImages[0] && heroImages[0] !== 'video') {
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.as = 'image';
+      link.href = heroImages[0];
+      link.setAttribute('fetchpriority', 'high');
+      document.head.appendChild(link);
+      
+      // Preload next image for smooth transition
+      if (heroImages[1] && heroImages[1] !== 'video') {
+        const link2 = document.createElement('link');
+        link2.rel = 'preload';
+        link2.as = 'image';
+        link2.href = heroImages[1];
+        document.head.appendChild(link2);
+      }
+      
+      return () => {
+        if (document.head.contains(link)) {
+          document.head.removeChild(link);
+        }
+        const link2 = document.head.querySelector(`link[href="${heroImages[1]}"]`);
+        if (link2) {
+          document.head.removeChild(link2);
+        }
+      };
+    }
+  }, []);
+  
+  // Preload next carousel image when index changes
+  useEffect(() => {
+    const nextIndex = (carouselIndex + 1) % heroImages.length;
+    if (heroImages[nextIndex] && heroImages[nextIndex] !== 'video') {
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.as = 'image';
+      link.href = heroImages[nextIndex];
+      document.head.appendChild(link);
+      
+      return () => {
+        if (document.head.contains(link)) {
+          document.head.removeChild(link);
+        }
+      };
+    }
+  }, [carouselIndex, heroImages]);
+  
   // Speaker modal state
   const [selectedSpeaker, setSelectedSpeaker] = useState<Speaker | null>(null);
   
@@ -147,11 +196,24 @@ const LandingPage: React.FC = () => {
                         ) : (
                           <div
                             key={`carousel-${index}`}
-                            className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ease-in-out ${
+                            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
                               index === carouselIndex ? 'opacity-100' : 'opacity-0'
                             }`}
-                            style={{ backgroundImage: `url(${image})` }}
-                          />
+                          >
+                            <img
+                              src={image}
+                              alt={`Parish visit ${index + 1}`}
+                              className="w-full h-full object-cover"
+                              loading={index === 0 ? "eager" : index === 1 ? "eager" : "lazy"}
+                              fetchPriority={index === 0 ? "high" : undefined}
+                              decoding="async"
+                              onLoad={(e) => {
+                                // Ensure image is loaded before showing
+                                const target = e.target as HTMLImageElement;
+                                target.style.opacity = '1';
+                              }}
+                            />
+                          </div>
                         )
                       ))}
                     </div>
