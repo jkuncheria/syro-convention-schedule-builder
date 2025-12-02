@@ -115,7 +115,7 @@ export const SPEAKERS: Speaker[] = [
     title: 'Performer & Cultural Ambassador',
     bio: "Tarini Kalidasan is a gifted performer and cultural ambassador who brings grace and artistry to the stage. With a passion for preserving and sharing the rich cultural traditions of South India, she captivates audiences through her performances. Her dedication to the arts, combined with her warm presence and artistic excellence, makes her a beloved figure in cultural and community events. Through her work, Tarini continues to inspire appreciation for traditional arts while connecting with audiences across generations.",
     day: Day.Saturday,
-    image: '/tarini.jpg',
+    image: '/tarini.jpeg',
   },
   {
     name: 'Parvathy Jayaram',

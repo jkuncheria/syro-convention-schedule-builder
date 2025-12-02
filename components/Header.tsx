@@ -30,7 +30,7 @@ const Header: React.FC = () => {
               <div className="bg-indigo-600 text-white p-1.5 rounded-lg">
                 <Calendar className="h-5 w-5" />
               </div>
-              <span className="font-bold text-xl tracking-tight text-gray-900">Syro<span className="text-indigo-600">-Convention</span></span>
+              <span className="font-bold text-xl tracking-tight text-gray-900">Syro<span className="text-indigo-600"> Convention</span></span>
             </Link>
           </div>
           

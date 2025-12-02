@@ -10,7 +10,7 @@ const LandingPage: React.FC = () => {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
   
-  // Hero gallery images
+  // Hero gallery images and video
   const heroImages = [
     '/hero-images/1.jpg',
     '/hero-images/2.jpg',
@@ -19,6 +19,8 @@ const LandingPage: React.FC = () => {
     '/hero-images/5.jpg',
     '/hero-images/6.jpg',
     '/hero-images/7.jpg',
+    '/hero-images/8.jpg',
+    'video', // Facebook video placeholder
   ];
   
   // Parish Visits carousel
@@ -70,7 +72,7 @@ const LandingPage: React.FC = () => {
         </div>
         
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 lg:items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 lg:items-start">
             {/* Left Side - Text Content */}
             <div className="relative z-10 text-center lg:text-left">
               {/* Badge with animation */}
@@ -121,16 +123,36 @@ const LandingPage: React.FC = () => {
             <div className="relative flex items-center justify-center w-full mt-8 lg:mt-0 order-2 lg:order-1">
               <div className="relative w-full flex flex-col items-center px-2 sm:px-4">
                 <div className="flex flex-col items-center w-full">
-                  <div className="relative w-full max-w-full sm:w-[550px] md:w-[700px] lg:w-[850px] xl:w-[1000px] 2xl:w-[1100px] aspect-[3/2] min-h-[200px]">
+                  <div className="relative w-full max-w-full sm:w-[1100px] md:w-[1350px] lg:w-[1600px] xl:w-[1800px] 2xl:w-[2000px] aspect-[3/2] min-h-[200px]">
                     <div className="relative w-full h-full rounded-xl shadow-lg overflow-hidden">
                       {heroImages.map((image, index) => (
-                        <div
-                          key={`carousel-${index}`}
-                          className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ease-in-out ${
-                            index === carouselIndex ? 'opacity-100' : 'opacity-0'
-                          }`}
-                          style={{ backgroundImage: `url(${image})` }}
-                        />
+                        image === 'video' ? (
+                          <div
+                            key={`carousel-${index}`}
+                            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                              index === carouselIndex ? 'opacity-100' : 'opacity-0'
+                            }`}
+                          >
+                            <iframe 
+                              src="https://www.facebook.com/plugins/video.php?height=300&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F784447991223147%2F&show_text=false&width=450&t=0" 
+                              width="100%" 
+                              height="100%" 
+                              style={{border:'none',overflow:'hidden', width: '100%', height: '100%'}} 
+                              scrolling="no" 
+                              frameBorder="0" 
+                              allowFullScreen={true}
+                              allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                            ></iframe>
+                          </div>
+                        ) : (
+                          <div
+                            key={`carousel-${index}`}
+                            className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ease-in-out ${
+                              index === carouselIndex ? 'opacity-100' : 'opacity-0'
+                            }`}
+                            style={{ backgroundImage: `url(${image})` }}
+                          />
+                        )
                       ))}
                     </div>
                   </div>
@@ -141,9 +163,6 @@ const LandingPage: React.FC = () => {
           </div>
         </div>
       </div>
-
-      {/* Speakers Scroll Banner */}
-      <SpeakersScrollBanner onSpeakerClick={handleSpeakerClick} />
       
       {/* Speaker Modal */}
       {selectedSpeaker && (
