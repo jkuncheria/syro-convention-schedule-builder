@@ -35,11 +35,9 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =
 };
 
 const AppRoutes: React.FC = () => {
-  const { isAuthenticated } = useAuth();
-
   return (
     <>
-      {isAuthenticated && <Header />}
+      <Header />
       <main>
         <Routes>
           <Route path="/" element={<LandingPage />} />

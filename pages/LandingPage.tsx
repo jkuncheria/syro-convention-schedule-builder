@@ -1,11 +1,48 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, Calendar, CheckCircle, Clock, Sparkles, Users } from 'lucide-react';
+import { ArrowRight, Calendar, CheckCircle, Clock, Sparkles } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import SpeakersScrollBanner from '../components/SpeakersScrollBanner';
+import SpeakerModal from '../components/SpeakerModal';
+import { Speaker } from '../utils/speakerUtils';
 
 const LandingPage: React.FC = () => {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  
+  // Hero gallery images
+  const heroImages = [
+    '/hero-images/1.jpg',
+    '/hero-images/2.jpg',
+    '/hero-images/3.png',
+    '/hero-images/4.jpg',
+    '/hero-images/5.jpg',
+    '/hero-images/6.jpg',
+    '/hero-images/7.jpg',
+  ];
+  
+  // Parish Visits carousel
+  const [carouselIndex, setCarouselIndex] = useState(0);
+  
+  // Speaker modal state
+  const [selectedSpeaker, setSelectedSpeaker] = useState<Speaker | null>(null);
+  
+  const handleSpeakerClick = (speaker: Speaker) => {
+    setSelectedSpeaker(speaker);
+  };
+  
+  const handleCloseModal = () => {
+    setSelectedSpeaker(null);
+  };
+  
+  // Auto-rotate carousel every 4 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCarouselIndex((prevIndex) => (prevIndex + 1) % heroImages.length);
+    }, 4000);
+    
+    return () => clearInterval(interval);
+  }, [heroImages.length]);
 
   const handleStartBuilding = () => {
     if (isAuthenticated) {
@@ -24,81 +61,97 @@ const LandingPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col overflow-hidden">
-      {/* Hero Section with Background Image */}
-      <div className="relative isolate px-6 pt-16 pb-24 sm:pt-24 sm:pb-32 lg:px-8 overflow-hidden">
-        {/* Background Image */}
-        <div 
-          className="absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: 'url(/hero.jpg)' }}
-        />
-        {/* Overlay for text readability */}
-        <div className="absolute inset-0 -z-10 bg-black/30" />
+    <div className="min-h-screen bg-white flex flex-col overflow-x-hidden">
+      {/* Hero Section with Split Layout */}
+      <div className="relative bg-gradient-to-br from-gray-50 via-white to-blue-50/30 pt-0 pb-16 sm:pb-24 lg:pb-32">
+        {/* Guest Speakers Scroll Banner - Above Hero */}
+        <div className="mb-8 sm:mb-12">
+          <SpeakersScrollBanner compact={true} onSpeakerClick={handleSpeakerClick} />
+        </div>
+        
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 lg:items-center">
+            {/* Left Side - Text Content */}
+            <div className="relative z-10 text-center lg:text-left">
+              {/* Badge with animation */}
+              <div className="mb-8 animate-fade-in flex justify-center lg:justify-start">
+                <div className="group relative inline-flex items-center gap-2 rounded-full bg-indigo-100 px-5 py-2.5 text-sm font-semibold text-indigo-700 ring-1 ring-inset ring-indigo-200 hover:bg-indigo-200 transition-all duration-300 shadow-sm">
+                  <Sparkles className="h-4 w-4 text-indigo-600 group-hover:rotate-12 transition-transform" />
+                  <span>Registration is now open for Syro-Convention 2026</span>
+                </div>
+              </div>
 
-        <div className="mx-auto max-w-5xl relative z-10">
-          {/* Badge with animation */}
-          <div className="mb-10 flex justify-center animate-fade-in">
-            <div className="group relative inline-flex items-center gap-2 rounded-full bg-white/90 backdrop-blur-sm px-5 py-2.5 text-sm font-semibold text-blue-700 ring-1 ring-inset ring-white/20 hover:bg-white transition-all duration-300 shadow-lg">
-              <Sparkles className="h-4 w-4 text-blue-600 group-hover:rotate-12 transition-transform" />
-              <span>Registration is now open for Syro-Convention 2026</span>
-            </div>
-          </div>
-
-          {/* Main Heading with gradient text */}
-          <div className="text-center mb-10">
-            <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-6xl lg:text-7xl mb-4 drop-shadow-lg">
-              Build Your Perfect
-              <br />
-              <span className="bg-gradient-to-r from-blue-200 via-cyan-200 to-sky-200 bg-clip-text text-transparent drop-shadow-md">
-                Convention Experience
-              </span>
-            </h1>
-            
-            <p className="text-xl sm:text-2xl leading-8 text-white mb-12 max-w-3xl mx-auto font-light drop-shadow-md">
-              Browse dozens of sessions, workshops, and liturgies across 4 days. 
-              <span className="block mt-2 text-white/90">Create a personalized agenda that fits your interests.</span>
-            </p>
-
-            {/* CTA Buttons with enhanced styling */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-              <button
-                onClick={handleStartBuilding}
-                className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 px-8 py-4 text-base font-semibold text-white shadow-2xl shadow-blue-500/50 hover:shadow-blue-500/70 hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition-all duration-300"
-              >
-                <span className="relative z-10 flex items-center gap-2">
-                  Start Building My Schedule
-                  <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              {/* Main Heading */}
+              <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl mb-6">
+                Build Your Perfect
+                <br />
+                <span className="bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-600 bg-clip-text text-transparent">
+                  Convention Experience
                 </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-700 to-cyan-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </button>
+              </h1>
               
-              <button
-                onClick={handleViewSchedule}
-                className="group inline-flex items-center justify-center rounded-xl bg-white px-8 py-4 text-base font-semibold text-gray-900 shadow-lg ring-1 ring-inset ring-gray-200 hover:bg-gray-50 hover:ring-gray-300 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition-all duration-300"
-              >
-                View Saved Schedule
-                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-              </button>
-            </div>
-          </div>
+              <p className="text-lg sm:text-xl leading-8 text-gray-600 mb-8">
+                Browse dozens of sessions, workshops, and liturgies across 4 days. Create a personalized agenda that fits your interests.
+              </p>
 
-          {/* Stats Bar */}
-          <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-white mb-1 drop-shadow-md">4</div>
-              <div className="text-sm text-white/90 drop-shadow-sm">Days</div>
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start gap-4 mb-12">
+                <button
+                  onClick={handleStartBuilding}
+                  className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-xl bg-gradient-to-r from-indigo-600 to-blue-600 px-8 py-4 text-base font-semibold text-white shadow-xl shadow-indigo-500/50 hover:shadow-indigo-500/70 hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all duration-300"
+                >
+                  <span className="relative z-10 flex items-center gap-2">
+                    Start Building My Schedule
+                    <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-indigo-700 to-blue-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </button>
+                
+                <button
+                  onClick={handleViewSchedule}
+                  className="group inline-flex items-center justify-center rounded-xl bg-white px-8 py-4 text-base font-semibold text-gray-900 shadow-lg ring-1 ring-inset ring-gray-200 hover:bg-gray-50 hover:ring-gray-300 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all duration-300"
+                >
+                  View Saved Schedule
+                  <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </button>
+              </div>
             </div>
-            <div className="text-center border-x border-white/30">
-              <div className="text-3xl font-bold text-white mb-1 drop-shadow-md">60+</div>
-              <div className="text-sm text-white/90 drop-shadow-sm">Events</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-white mb-1 drop-shadow-md">24/7</div>
-              <div className="text-sm text-white/90 drop-shadow-sm">Access</div>
+
+            {/* Right Side - Parish Visits Carousel */}
+            <div className="relative flex items-center justify-center w-full mt-8 lg:mt-0 order-2 lg:order-1">
+              <div className="relative w-full flex flex-col items-center px-2 sm:px-4">
+                <div className="flex flex-col items-center w-full">
+                  <div className="relative w-full max-w-full sm:w-[550px] md:w-[700px] lg:w-[850px] xl:w-[1000px] 2xl:w-[1100px] aspect-[3/2] min-h-[200px]">
+                    <div className="relative w-full h-full rounded-xl shadow-lg overflow-hidden">
+                      {heroImages.map((image, index) => (
+                        <div
+                          key={`carousel-${index}`}
+                          className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ease-in-out ${
+                            index === carouselIndex ? 'opacity-100' : 'opacity-0'
+                          }`}
+                          style={{ backgroundImage: `url(${image})` }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Speakers Scroll Banner */}
+      <SpeakersScrollBanner onSpeakerClick={handleSpeakerClick} />
+      
+      {/* Speaker Modal */}
+      {selectedSpeaker && (
+        <SpeakerModal
+          speaker={selectedSpeaker}
+          isOpen={!!selectedSpeaker}
+          onClose={handleCloseModal}
+        />
+      )}
 
       {/* Feature Section with sophisticated cards */}
       <div className="relative bg-gradient-to-b from-white via-gray-50 to-white py-24 sm:py-32">

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Calendar, Menu, X, LayoutGrid, Home, LogOut, User, BarChart3, Users } from 'lucide-react';
+import { Calendar, Menu, X, LayoutGrid, Home, LogOut, User, BarChart3, Users, LogIn } from 'lucide-react';
 import { useSchedule } from '../context/ScheduleContext';
 import { useAuth } from '../context/AuthContext';
 import { isAdmin } from '../utils/admin';
@@ -54,7 +54,7 @@ const Header: React.FC = () => {
                 )}
               </Link>
             ))}
-            {user && (
+            {user ? (
               <div className="flex items-center gap-4 pl-4 border-l border-gray-200">
                 <div className="flex items-center gap-2 text-sm text-gray-600">
                   <User className="h-4 w-4" />
@@ -70,6 +70,20 @@ const Header: React.FC = () => {
                   <LogOut className="h-4 w-4" />
                   <span className="hidden lg:inline">Logout</span>
                 </button>
+              </div>
+            ) : (
+              <div className="flex items-center pl-4 border-l border-gray-200">
+                <Link
+                  to="/login"
+                  className={`inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium transition-colors duration-200 ${
+                    isActive('/login')
+                      ? 'text-indigo-600'
+                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                  } rounded-md`}
+                >
+                  <LogIn className="h-4 w-4" />
+                  <span className="hidden lg:inline">Login</span>
+                </Link>
               </div>
             )}
           </div>
@@ -117,7 +131,7 @@ const Header: React.FC = () => {
                     </Link>
                 );
             })}
-            {user && (
+            {user ? (
               <>
                 <div className="px-3 py-2 border-t border-gray-200 mt-2">
                   <div className="flex items-center gap-2 text-sm text-gray-600">
@@ -138,6 +152,19 @@ const Header: React.FC = () => {
                   Logout
                 </button>
               </>
+            ) : (
+              <Link
+                to="/login"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className={`flex items-center pl-3 pr-4 py-3 border-l-4 text-base font-medium ${
+                  isActive('/login')
+                    ? 'bg-indigo-50 border-indigo-500 text-indigo-700'
+                    : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700'
+                }`}
+              >
+                <LogIn className="h-5 w-5 mr-3" />
+                Login
+              </Link>
             )}
           </div>
         </div>
