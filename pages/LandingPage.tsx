@@ -134,6 +134,7 @@ const LandingPage: React.FC = () => {
                       ))}
                     </div>
                   </div>
+                  <p className="mt-4 text-lg font-semibold text-gray-700">Parish Visits</p>
                 </div>
               </div>
             </div>

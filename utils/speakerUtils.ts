@@ -31,13 +31,6 @@ export const SPEAKERS: Speaker[] = [
     day: Day.Thursday,
     image: '/nithya-mammen.jpeg',
   },
-  {
-    name: 'Erika Kirk',
-    title: 'CEO & Chair of Turning Point USA',
-    bio: "Erika Kirk is an American nonprofit leader, former Miss Arizona USA, and the current CEO and Chair of Turning Point USA. Born Erika Frantzve, she has a background in political science, ministry work, and youth-focused community initiatives. After years of involvement in faith-based outreach and entrepreneurship, she stepped into national prominence in 2025 following the death of her husband, Charlie Kirk, assuming leadership of Turning Point USA and becoming a notable voice in public engagement.",
-    day: Day.Thursday,
-    image: '/erika-kirk.jpg',
-  },
   // Day 2 - Friday
   {
     name: 'Bishop Earl K. Fernandes',
@@ -73,7 +66,7 @@ export const SPEAKERS: Speaker[] = [
     title: 'Cardiothoracic Surgeon',
     bio: "Dr. Jose Periappuram is a distinguished cardiothoracic surgeon from Kerala, celebrated for his expertise in cardiac surgery and his leadership in advancing heart care. A sought-after speaker, he delivers talks and presentations on cardiac health, preventive care, and organ donation. Beyond medicine, he is deeply committed to charity and philanthropy, supporting medical outreach, patient assistance, and community health initiatives. His service and compassion continue to make a lasting impact on healthcare in Kerala and beyond.",
     day: Day.Saturday,
-    image: '', // Image not found in public folder - will show placeholder
+    image: '/dr.jose.jpeg',
   },
   {
     name: 'Fr. Joseph Puthenpurackal',
@@ -97,18 +90,39 @@ export const SPEAKERS: Speaker[] = [
     image: '/edward-sri.jpeg',
   },
   {
-    name: 'Usha Vance',
-    title: 'Attorney & Wife of U.S. Senator J.D. Vance',
-    bio: "Usha Vance is an accomplished attorney and the wife of U.S. Senator J.D. Vance. A graduate of Yale University and Yale Law School, she has built a distinguished legal career with experience in both public service and private practice. Known for her intelligence, poise, and grounded presence, Usha is often recognized for her role in supporting community initiatives. Her story as the daughter of Indian immigrants and her journey through elite academic and professional spaces make her an inspiring example of dedication, resilience, and cultural pride.",
-    day: Day.Saturday,
-    image: '/usha-vance.jpg',
-  },
-  {
     name: 'Vivek Ramaswamy',
     title: 'Entrepreneur, Author & Political Figure',
     bio: "Vivek Ramaswamy is an entrepreneur, author, and political figure known for his outspoken views on innovation, free speech, and American identity. The son of Indian immigrants, he rose to prominence as the founder of Roivant Sciences and later became a national voice through his bestselling books and 2024 U.S. presidential campaign. With a background from Harvard and Yale Law School, Ramaswamy is recognized for challenging conventional thinking, championing meritocracy, and inspiring conversations about the role of immigrants and innovators in shaping America's future.",
     day: Day.Saturday,
     image: '/vivek-rama.jpg',
+  },
+  {
+    name: 'Kalidasan Jayaram',
+    title: 'Actor & Performer',
+    bio: "Kalidasan Jayaram is a talented actor and performer, carrying forward the artistic legacy of his family. Known for his dedication to the performing arts and his commitment to cultural expression, he brings a fresh perspective to the stage while honoring traditional forms. Through his work in cinema and performance, Kalidasan continues to inspire audiences with his passion for storytelling and his deep appreciation for the rich cultural heritage of South India.",
+    day: Day.Saturday,
+    image: '/kalidasan.jpeg',
+  },
+  {
+    name: 'Dr. Manoj Matthew',
+    title: 'Professor of Medicine at Penn State & Spiritual Speaker',
+    bio: "Dr. Manoj Matthew is a Professor of Medicine at Penn State College of Medicine, where he specializes in gastroenterology and interventional endoscopy. Beyond his distinguished medical career, he is a respected spiritual speaker and educator known for his insightful teachings on liturgy, faith, and the rich traditions of the Syro-Malabar Catholic Church. With a deep understanding of liturgical signs and symbols, he helps the faithful connect more meaningfully with the sacred mysteries of the faith. Through his engaging presentations and thoughtful guidance, Dr. Matthew continues to enrich the spiritual lives of communities, helping them deepen their understanding and appreciation of the Church's liturgical heritage.",
+    day: Day.Saturday,
+    image: '/dr.manoj.jpg',
+  },
+  {
+    name: 'Tarini Kalidasan',
+    title: 'Performer & Cultural Ambassador',
+    bio: "Tarini Kalidasan is a gifted performer and cultural ambassador who brings grace and artistry to the stage. With a passion for preserving and sharing the rich cultural traditions of South India, she captivates audiences through her performances. Her dedication to the arts, combined with her warm presence and artistic excellence, makes her a beloved figure in cultural and community events. Through her work, Tarini continues to inspire appreciation for traditional arts while connecting with audiences across generations.",
+    day: Day.Saturday,
+    image: '/tarini.jpg',
+  },
+  {
+    name: 'Parvathy Jayaram',
+    title: 'Cultural Performer & Artist',
+    bio: "Parvathy Jayaram is a distinguished cultural performer and artist, known for her elegant stage presence and dedication to the performing arts. As part of a family deeply rooted in South Indian cinema and culture, she brings a unique blend of traditional artistry and contemporary expression to her performances. Her commitment to preserving cultural heritage while engaging modern audiences has made her a respected figure in the arts community. Through her work, Parvathy continues to celebrate and share the beauty of South Indian culture with audiences around the world.",
+    day: Day.Saturday,
+    image: '/parvathy.jpg',
   },
 ];
 
@@ -119,7 +133,7 @@ export const EVENT_TO_SPEAKER_MAP: Record<string, string[]> = {
   'fr-05': ['Bishop Earl K. Fernandes'], // Introducing Bishop Fernandez
   'fr-06': ['Bishop Earl K. Fernandes'], // Bishop Earl K. Fernandez
   'fr-08': ['Mar Raphael Thattil'], // Concluding Remarks
-  'sa-05': ['Vivek Ramaswamy', 'Usha Vance'], // Panel discussion
+  'sa-05': ['Vivek Ramaswamy'], // Panel discussion
   'sa-10': ['Fr. Bobby Jose Kattikad'], // Retreat
   'sa-12': ['Fr. Joseph Puthenpurackal'], // Harmony in Marriage
   'sa-15': ['Padma Shri Jayaram', 'Stephen Devassy', 'Nithya Mammen'], // Cultural Program
