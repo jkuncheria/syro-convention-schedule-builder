@@ -90,13 +90,6 @@ export const SPEAKERS: Speaker[] = [
     image: '/edward-sri.jpeg',
   },
   {
-    name: 'Vivek Ramaswamy',
-    title: 'Entrepreneur, Author & Political Figure',
-    bio: "Vivek Ramaswamy is an entrepreneur, author, and political figure known for his outspoken views on innovation, free speech, and American identity. The son of Indian immigrants, he rose to prominence as the founder of Roivant Sciences and later became a national voice through his bestselling books and 2024 U.S. presidential campaign. With a background from Harvard and Yale Law School, Ramaswamy is recognized for challenging conventional thinking, championing meritocracy, and inspiring conversations about the role of immigrants and innovators in shaping America's future.",
-    day: Day.Saturday,
-    image: '/vivek-rama.jpg',
-  },
-  {
     name: 'Kalidasan Jayaram',
     title: 'Actor & Performer',
     bio: "Kalidasan Jayaram is a talented actor and performer, carrying forward the artistic legacy of his family. Known for his dedication to the performing arts and his commitment to cultural expression, he brings a fresh perspective to the stage while honoring traditional forms. Through his work in cinema and performance, Kalidasan continues to inspire audiences with his passion for storytelling and his deep appreciation for the rich cultural heritage of South India.",
@@ -133,7 +126,7 @@ export const EVENT_TO_SPEAKER_MAP: Record<string, string[]> = {
   'fr-05': ['Bishop Earl K. Fernandes'], // Introducing Bishop Fernandez
   'fr-06': ['Bishop Earl K. Fernandes'], // Bishop Earl K. Fernandez
   'fr-08': ['Mar Raphael Thattil'], // Concluding Remarks
-  'sa-05': ['Vivek Ramaswamy'], // Panel discussion
+  'sa-05': [], // Panel discussion
   'sa-10': ['Fr. Bobby Jose Kattikad'], // Retreat
   'sa-12': ['Fr. Joseph Puthenpurackal'], // Harmony in Marriage
   'sa-15': ['Padma Shri Jayaram', 'Stephen Devassy', 'Nithya Mammen'], // Cultural Program
