@@ -105,7 +105,7 @@ const SpeakerModal: React.FC<SpeakerModalProps> = ({ speaker, isOpen, onClose })
                   <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-900 mb-2 sm:mb-3 leading-tight">
                     {speaker.name}
                   </h2>
-                  <p className="text-sm sm:text-base lg:text-lg text-indigo-600 font-semibold mb-3 sm:mb-4">
+                  <p className="text-sm sm:text-base lg:text-lg text-indigo-600 font-semibold mb-3 sm:mb-4 whitespace-pre-line">
                     {speaker.title}
                   </p>
                   <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-indigo-50 text-indigo-700 text-xs sm:text-sm font-medium rounded-full border border-indigo-100">

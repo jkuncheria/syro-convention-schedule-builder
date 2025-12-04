@@ -54,9 +54,9 @@ export const SPEAKERS: Speaker[] = [
     image: '/raphael.jpeg',
   },
   {
-    name: 'Vaughese Maliekkal',
-    title: 'Chief Executive Officer of Hollister',
-    bio: "Vaughese Maliekkal is a respected community leader and the Chief Executive Officer of Hollister. With a distinguished record of professional excellence, he brings strategic vision, strong organizational leadership, and a deep commitment to service. In the Syro-Malabar community, Vaughese has been an active supporter of numerous diocesan and parish initiatives, contributing his time, expertise, and steady guidance to strengthen and uplift the community. His blend of professional achievement and faith-centered leadership continues to inspire many.",
+    name: 'Varghese Maliekel',
+    title: 'Executive Chairman of the Board of Directors\nJDS Inc & Hollister Incorporated',
+    bio: "Varghese Maliekel is a Pioneer of the Community, having been involved with the Syro Malabar Church in Chicago since the mid 1970s.  He is originally from Pala and was the National President of AICUF in 1973. After obtaining his MBA from Harvard Business School, Mr. Maliekel pursued a distinguished business career, culminating in the role of Chief Executive Officer of Hollister Incorporated and its parent Company JDS, Inc.  He served in this role for thirteen years and is currently Executive Chairman of the Board of Directors of JDS and Hollister. Mr. Maliekel and his wife, Dr. Sheila Maliekel, are both actively engaged in numerous diocesan and parish activities in Chicago and in Kerala.  Additionally, they contribute their time and resources to multiple charitable projects both here and in India.  Mr. Maliekel's extensive track record of integrating a distinguished professional career with values-based leadership is an inspiration to many.  He speaks regularly about the Role of the Laity in Evangelization, Faith-based Leadership, and Leading a Purposeful Life.",
     day: Day.Friday,
     image: '/george-maliekal.jpg',
   },
